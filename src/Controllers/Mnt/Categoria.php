@@ -7,8 +7,9 @@ use Views\Renderer;
 
 class Categoria extends PublicController
 {
-    private $redirectTo = "index.php?page=Mnt-Categorias";
+    private $redirectTo = "index.php?page=Mnt-Categorias"; //link a donde se va redirigir
     private $viewData = array(
+        //esta es la informacion que le vamos a enviar al renderizador el cual va mostrar los datos en la pantalla
         "mode" => "DSP",
         "modedsc" => "",
         "catid" => 0,
@@ -19,6 +20,7 @@ class Categoria extends PublicController
         "catnom_error" => "",
         "general_errors" => array(),
         "has_errors" => false,
+        //sirve como bandera
         "show_action" => true,
         "readonly" => false,
     );
@@ -31,14 +33,14 @@ class Categoria extends PublicController
     public function run(): void
     {
         try {
-            $this->page_loaded();
-            if ($this->isPostBack()) {
-                $this->validatePostData();
-                if (!$this->viewData["has_errors"]) {
+            $this->page_loaded(); // se carga la página y los parámetros
+            if ($this->isPostBack()) { //esta funcion es heredada de PublicController y va determinar si es un post en un formulario <form method="POST">
+                $this->validatePostData(); //si es un post, va validar los datos que se van a enviar en el formulario
+                if (!$this->viewData["has_errors"]) { //si no tiene errores realizará una acción
                     $this->executeAction();
                 }
             }
-            $this->render();
+            $this->render(); // si no hay un error, va renderizar la vista
         } catch (Exception $error) {
             error_log(sprintf("Controller/Mnt/Categoria ERROR: %s", $error->getMessage()));
             \Utilities\Site::redirectToWithMsg(
@@ -63,8 +65,9 @@ class Categoria extends PublicController
         */
 
     }
-    private function page_loaded()
-    {
+    private function page_loaded() //se va determinar el modo, que metodo se esta utilizando, insertar, actualizar o eliminar
+    { //verifica la informacion que viene en la url
+        //valida que los parametros en la URL y que tenga valores validos
         if (isset($_GET['mode'])) {
             if (isset($this->modes[$_GET['mode']])) {
                 $this->viewData["mode"] = $_GET['mode'];
@@ -74,7 +77,7 @@ class Categoria extends PublicController
         } else {
             throw new Exception("Mode not defined on Query Params");
         }
-        if ($this->viewData["mode"] !== "INS") {
+        if ($this->viewData["mode"] !== "INS") { //se valida el modo no es insertado
             if (isset($_GET['catid'])) {
                 $this->viewData["catid"] = intval($_GET["catid"]);
             } else {
@@ -82,10 +85,11 @@ class Categoria extends PublicController
             }
         }
     }
-    private function validatePostData()
+    private function validatePostData() //extrae la informacion que viene del formulario y valida que esta correcto
     {
-        if (isset($_POST["catnom"])) {
-            if (\Utilities\Validators::IsEmpty($_POST["catnom"])) {
+        if (isset($_POST["catnom"])) { //con esta condicional se ve si existe
+            if (\Utilities\Validators::IsEmpty($_POST["catnom"])) { //si es vacío, el has_errors se pone en true y se envía el mensake de error
+                //la clase Validators tiene mas funciones para validar
                 $this->viewData["has_errors"] = true;
                 $this->viewData["catnom_error"] = "El nombre no puede ir vacío!";
             }
@@ -93,7 +97,7 @@ class Categoria extends PublicController
             throw new Exception("CatNom not present in form");
         }
         if (isset($_POST["catest"])) {
-            if (!in_array($_POST["catest"], array("ACT", "INA"))) {
+            if (!in_array($_POST["catest"], array("ACT", "INA"))) { //será un select pero aun asi se va validar los que estan dentro de un arreglo existente
                 throw new Exception("CatEst incorrect value");
             }
         } else {
@@ -126,17 +130,19 @@ class Categoria extends PublicController
             $this->viewData["catest"] = $_POST["catest"];
         }
     }
-    private function executeAction()
+    private function executeAction() //dependiendo de la accion que se realiza 
     {
-        switch ($this->viewData["mode"]) {
+        switch ($this->viewData["mode"]) { //el mode es la opcion o el metodo
             case "INS":
                 $inserted = \Dao\Mnt\Categorias::insert(
+                    //llamamos la funcion
                     $this->viewData["catnom"],
                     $this->viewData["catest"]
                 );
-                if ($inserted > 0) {
+                if ($inserted > 0) { //la funcion retorna un valor entero
                     \Utilities\Site::redirectToWithMsg(
                         $this->redirectTo,
+                        //lo redirige con un mensaje
                         "Categoría Creada Exitosamente"
                     );
                 }
