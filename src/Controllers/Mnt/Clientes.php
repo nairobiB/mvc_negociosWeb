@@ -14,7 +14,7 @@ class Clientes extends PublicController
             "delete_enabled" => true,
             "new_enabled" => true
         );
-        $viewData["clientes"] = \Dao\Mnt\Categorias::findAll();
+        $viewData["clientes"] = \Dao\Mnt\Clientes::findAll();
         Renderer::render('mnt/clientes', $viewData);
     }
 }
