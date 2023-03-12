@@ -5,7 +5,7 @@ namespace Controllers\Mnt;
 use Controllers\PublicController;
 use Views\Renderer;
 
-class Categorias extends PublicController
+class Clientes extends PublicController
 {
     public function run(): void
     {
@@ -14,8 +14,8 @@ class Categorias extends PublicController
             "delete_enabled" => true,
             "new_enabled" => true
         );
-        $viewData["categorias"] = \Dao\Mnt\Categorias::findAll();
-        Renderer::render('mnt/categorias', $viewData);
+        $viewData["clientes"] = \Dao\Mnt\Categorias::findAll();
+        Renderer::render('mnt/clientes', $viewData);
     }
 }
 
