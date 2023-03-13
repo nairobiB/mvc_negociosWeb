@@ -138,6 +138,14 @@ class Cliente extends PublicController
         } else {
             throw new Exception("clientbio not present in form");
         }
+        if (isset($_POST["clientdatecrt"])) {
+            if (\Utilities\Validators::IsEmpty($_POST["clientdatecrt"])) {
+                $this->viewData["has_errors"] = true;
+                $this->viewData["clientdatecrt_error"] = "La fecha no puede ir vacío!";
+            }
+        } else {
+            throw new Exception("clientdatecrt not present in form");
+        }
         if (isset($_POST["clientstatus"])) {
             if (!in_array($_POST["clientstatus"], array("ACT", "INA"))) {
                 throw new Exception("clientstatus incorrect value");
@@ -183,6 +191,7 @@ class Cliente extends PublicController
         $this->viewData["clientemail"] = $_POST["clientemail"];
         $this->viewData["clientIdnumber"] = $_POST["clientIdnumber"];
         $this->viewData["clientbio"] = $_POST["clientbio"];
+        $this->viewData["clientdatecrt"] = $_POST["clientdatecrt"];
         if ($this->viewData["mode"] !== "DEL") {
             $this->viewData["clientstatus"] = $_POST["clientstatus"];
         }
@@ -204,7 +213,7 @@ class Cliente extends PublicController
                     $this->viewData["clientemail"],
                     $this->viewData["clientIdnumber"],
                     $this->viewData["clientbio"],
-                    // $this->viewData["clientdatecrt"]
+                    $this->viewData["clientdatecrt"]
 
                 );
                 if ($inserted > 0) {
@@ -225,7 +234,7 @@ class Cliente extends PublicController
                     $this->viewData["clientemail"],
                     $this->viewData["clientIdnumber"],
                     $this->viewData["clientbio"],
-                    // $this->viewData["clientdatecrt"]
+                    $this->viewData["clientdatecrt"],
                     $this->viewData["clientid"]
                 );
                 if ($updated > 0) {

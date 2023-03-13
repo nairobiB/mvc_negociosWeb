@@ -68,6 +68,13 @@
         <span class="error col-12">{{clientbio_error}}</span>
       {{endif clientbio_error}}
     </section>
+    <section class="row">
+      <label for="clientdatecrt" class="col-4">Fecha creación</label>
+      <input type="text" {{readonly}} name="clientdatecrt" value="{{clientdatecrt}}" maxlength="19" placeholder="YYYY-MM-DD"/>
+      {{if clientdatecrt_error}}
+        <span class="error col-12">{{clientdatecrt_error}}</span>
+      {{endif clientdatecrt_error}}
+    </section>
     {{if has_errors}}
         <section>
           <ul>

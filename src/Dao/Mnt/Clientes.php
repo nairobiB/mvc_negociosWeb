@@ -17,9 +17,9 @@ use Dao\Table;
 class Clientes extends Table
 {
 
-    public static function insert(string $clientname, string $clientstatus = "ACT", string $clientgender = "FEM", string $clientphone1, string $clientphone2, string $clientemail, string $clientIdnumber, string $clientbio): int
+    public static function insert(string $clientname, string $clientstatus = "ACT", string $clientgender = "FEM", string $clientphone1, string $clientphone2, string $clientemail, string $clientIdnumber, string $clientbio, string $clientdatecrt): int
     {
-        $sqlstr = "INSERT INTO clientes (clientname, clientstatus, clientgender, clientphone1, clientphone2, clientemail, clientIdnumber, clientbio) values(:clientname, :clientstatus, :clientgender, :clientphone1, :clientphone2, :clientemail, :clientIdnumber, :clientbio);";
+        $sqlstr = "INSERT INTO clientes (clientname, clientstatus, clientgender, clientphone1, clientphone2, clientemail, clientIdnumber, clientbio, clientdatecrt) values(:clientname, :clientstatus, :clientgender, :clientphone1, :clientphone2, :clientemail, :clientIdnumber, :clientbio, :clientdatecrt);";
         $rowsInserted = self::executeNonQuery(
             $sqlstr,
             array(
@@ -31,6 +31,7 @@ class Clientes extends Table
                 "clientemail" => $clientemail,
                 "clientIdnumber" => $clientIdnumber,
                 "clientbio" => $clientbio,
+                "clientdatecrt" => $clientdatecrt
             )
         );
         return $rowsInserted;
@@ -44,10 +45,12 @@ class Clientes extends Table
         string $clientemail,
         string $clientIdnumber,
         string $clientbio,
+        string $clientdatecrt,
         int $clientid
+
     )
     {
-        $sqlstr = "UPDATE clientes set clientname = :clientname, clientstatus = :clientstatus, clientgender = :clientgender, clientphone1 = :clientphone1, clientphone2 = :clientphone2, clientemail = :clientemail, clientIdnumber = :clientIdnumber, clientbio = :clientbio where clientid = :clientid;";
+        $sqlstr = "UPDATE clientes set clientname = :clientname, clientstatus = :clientstatus, clientgender = :clientgender, clientphone1 = :clientphone1, clientphone2 = :clientphone2, clientemail = :clientemail, clientIdnumber = :clientIdnumber, clientbio = :clientbio, clientdatecrt = :clientdatecrt where clientid = :clientid;";
         $rowsUpdated = self::executeNonQuery(
             $sqlstr,
             array(
@@ -59,6 +62,7 @@ class Clientes extends Table
                 "clientemail" => $clientemail,
                 "clientIdnumber" => $clientIdnumber,
                 "clientbio" => $clientbio,
+                "clientdatecrt" => $clientdatecrt,
                 "clientid" => $clientid
             )
         );

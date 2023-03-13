@@ -15,7 +15,7 @@
         <th>Correo</th>
         <th>ID</th>
         <th>Biografía</th>
-        <!--<th>Fecha Creación</th> -->
+        <th>Fecha Creación</th> 
      
         <th>
           {{if new_enabled}}
@@ -36,7 +36,7 @@
         <td>{{clientemail}}</td>
         <td>{{clientIdnumber}}</td>
         <td>{{clientbio}}</td>
-        <!--<td>{{clientdatecrt}}</td>-->
+        <td>{{clientdatecrt}}</td>
       
         <td>
           {{if ~edit_enabled}}
